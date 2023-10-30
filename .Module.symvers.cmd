@@ -1,0 +1,1 @@
+cmd_/home/zcj/school/netwoke_commnication/vitrual-internet-device-interface/Module.symvers :=  scripts/mod/modpost -m -a     -o /home/zcj/school/netwoke_commnication/vitrual-internet-device-interface/Module.symvers -T /home/zcj/school/netwoke_commnication/vitrual-internet-device-interface/modules.order -i Module.symvers -e 
