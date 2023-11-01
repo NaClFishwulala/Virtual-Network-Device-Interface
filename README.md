@@ -27,20 +27,21 @@ Ping100个报文，统计VNI模块发送和接收分组的个数，每分钟定�
 2. 使用netlink技术完成统计打印，可以写进日志
 3. 编写脚本完成测试
 
-三、项目进度
-·FINISHED:
+三、项目计划
 1. 确立系统架构、技术栈与学习路线
 2. 环境搭建
 3. 内核模块编写学习
-
-·TODO:
+=>内核源码:https://mirrors.edge.kernel.org/pub/linux/kernel/v6.x/
 4. netfilter学习&编写
-->图书馆借书
 5. netlink复习&编写
 6. 脚本编写&测试
 7. 撰写实验报告
 
-四、编译说明
+四、项目进度
+11.1 借阅书籍《Linux网络编程》，学习了netfilter的相关知识
+TODO 编写netfilter并进行测试
+
+五、编译说明
 加载内核模块: sudo insmod xxx.ko
 打印内核消息: sudo dmesg [-C #清除内核消息记录]
 卸载内核模块: sudo rmmod xxx
