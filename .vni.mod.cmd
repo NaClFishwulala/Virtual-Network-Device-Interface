@@ -1,0 +1,1 @@
+cmd_/home/zcj/school/netwoke_commnication/vitrual-internet-device-interface/vni.mod := printf '%s\n'   vni.o | awk '!x[$$0]++ { print("/home/zcj/school/netwoke_commnication/vitrual-internet-device-interface/"$$0) }' > /home/zcj/school/netwoke_commnication/vitrual-internet-device-interface/vni.mod
