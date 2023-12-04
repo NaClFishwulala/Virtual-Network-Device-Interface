@@ -30,12 +30,29 @@ MODULE_INFO(retpoline, "Y");
 static const struct modversion_info ____versions[]
 __used __section("__versions") = {
 	{ 0xbdfb6dbb, "__fentry__" },
-	{ 0x122c3a7e, "_printk" },
+	{ 0xa9b76a70, "ether_setup" },
 	{ 0x5b8239ca, "__x86_return_thunk" },
+	{ 0x122c3a7e, "_printk" },
+	{ 0xb4d34ef6, "skb_pull" },
+	{ 0xa4ac7763, "netif_rx" },
+	{ 0x8f93170d, "alloc_netdev_mqs" },
+	{ 0x99fb7e01, "register_netdev" },
+	{ 0x3022a95d, "dev_add_pack" },
+	{ 0x6ff24b3a, "dev_remove_pack" },
+	{ 0x38c7ddda, "unregister_netdev" },
+	{ 0x240f1dee, "free_netdev" },
+	{ 0xa19b956, "__stack_chk_fail" },
+	{ 0x316f68bc, "init_net" },
+	{ 0x83d29be5, "dev_get_by_name" },
+	{ 0x1a35fca5, "skb_realloc_headroom" },
+	{ 0x4bb2c6c0, "consume_skb" },
+	{ 0xc26fbe0c, "skb_push" },
+	{ 0xdc228b17, "__dev_queue_xmit" },
+	{ 0x22cc9093, "kfree_skb_reason" },
 	{ 0x453e7dc, "module_layout" },
 };
 
 MODULE_INFO(depends, "");
 
 
-MODULE_INFO(srcversion, "8E9487644248441F2E8C211");
+MODULE_INFO(srcversion, "EDE1C151628D9C5817EEC6F");
