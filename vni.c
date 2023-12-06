@@ -4,6 +4,8 @@
 #include <linux/skbuff.h>
 #include <uapi/linux/ip.h>
 #include <net/sock.h>
+#include <linux/timer.h>
+#include <linux/jiffies.h>
 
 MODULE_LICENSE("GPL");
 
@@ -14,9 +16,11 @@ int vni_open(struct net_device *dev);
 int vni_release(struct net_device *dev);
 netdev_tx_t	vni_tx(struct sk_buff *skb,struct net_device *dev);
 int vni_rx(struct sk_buff *skb, struct net_device *dev,struct packet_type *ptype, struct net_device *orig_dev);
+void vni_timer_callback(struct timer_list *timer);
 
 struct net_device *vni_dev;
 struct net_device_ops vni_dev_ops;
+static struct timer_list vni_timer;
 
 // 发送端私有网络设备的私有属性
 struct vni_priv 
@@ -51,6 +55,16 @@ struct net_device_ops vni_dev_ops = {
 .ndo_start_xmit = vni_tx,
 };
 
+// 定时器到期回调函数
+void vni_timer_callback(struct timer_list *timer)
+{
+    
+    struct vni_priv *priv;
+    priv = netdev_priv(vni_dev);
+    printk(KERN_INFO "timer expire rx_packets: %u tx_packets: %u\n", priv->rx_packets, priv->tx_packets);
+    mod_timer(&vni_timer, jiffies + 60 * HZ);
+}
+
 // 发送端私有网络设备初始化函数
 void vni_setup(struct net_device* dev)
 {
@@ -77,9 +91,13 @@ int vni_release(struct net_device *dev)
     // 退出时可能得再保存一次统计数据
     struct vni_priv *priv;
     priv = netdev_priv(vni_dev);
-    printk(KERN_INFO "rx_packets: %u\n", priv->rx_packets);
-    printk(KERN_INFO "vni close\n");
+    printk(KERN_INFO "rx_packets: %u tx_packets: %u\n", priv->rx_packets, priv->tx_packets);
+
+    del_timer(&vni_timer);
+    printk(KERN_INFO "timer close\n");
+
     netif_stop_queue(dev);  // Stop upper layers calling the device hard_start_xmit routine.
+    printk(KERN_INFO "vni close\n");
     return 0;
 }
 
@@ -187,6 +205,10 @@ static int __init vni_init(void)
 
     // 添加私有协议
     dev_add_pack(&vni_packet_type);
+
+    // 设置定时器
+    timer_setup(&vni_timer, vni_timer_callback, 0);
+    mod_timer(&vni_timer, jiffies + 60 * HZ);
 
     printk(KERN_INFO  "vni_init\n");
     return 0;

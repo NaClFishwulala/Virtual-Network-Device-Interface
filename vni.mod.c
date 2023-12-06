@@ -30,14 +30,18 @@ MODULE_INFO(retpoline, "Y");
 static const struct modversion_info ____versions[]
 __used __section("__versions") = {
 	{ 0xbdfb6dbb, "__fentry__" },
-	{ 0xa9b76a70, "ether_setup" },
-	{ 0x5b8239ca, "__x86_return_thunk" },
 	{ 0x122c3a7e, "_printk" },
+	{ 0x15ba50a6, "jiffies" },
+	{ 0xc38c83b8, "mod_timer" },
+	{ 0x5b8239ca, "__x86_return_thunk" },
+	{ 0xa9b76a70, "ether_setup" },
+	{ 0xdc0e4855, "timer_delete" },
 	{ 0xb4d34ef6, "skb_pull" },
 	{ 0xa4ac7763, "netif_rx" },
 	{ 0x8f93170d, "alloc_netdev_mqs" },
 	{ 0x99fb7e01, "register_netdev" },
 	{ 0x3022a95d, "dev_add_pack" },
+	{ 0xc6f46339, "init_timer_key" },
 	{ 0x6ff24b3a, "dev_remove_pack" },
 	{ 0x38c7ddda, "unregister_netdev" },
 	{ 0x240f1dee, "free_netdev" },
@@ -55,4 +59,4 @@ __used __section("__versions") = {
 MODULE_INFO(depends, "");
 
 
-MODULE_INFO(srcversion, "EDE1C151628D9C5817EEC6F");
+MODULE_INFO(srcversion, "4B24A9548487D863EEBBD35");

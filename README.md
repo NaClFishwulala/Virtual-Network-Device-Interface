@@ -48,8 +48,8 @@ Ping100个报文，统计VNI模块发送和接收分组的个数，每分钟定�
 11.30 接收端测试, 看一下网络字节序
 12.1 发送端编写, 测试指定虚拟设备发送时，vni_tx获得skb时,其指针指向eth
 12.4 发送端的编写测试
+12.6 定时器编写并测试
 TODO 
-定时器编写并测试， 思考问什么vni0要配置ip才能通信
 
 ## 五、编译说明&常用命令
 加载内核模块: sudo insmod vni.ko  
@@ -255,3 +255,58 @@ struct sk_buff *skb_realloc_headroom(struct sk_buff *skb, unsigned int headroom)
  *	@skb: buffer to free
  */
 static inline void kfree_skb(struct sk_buff *skb)
+
+14. 定时器相关
+/**
+ * timer_setup - prepare a timer for first use
+ * @timer: the timer in question
+ * @callback: the function to call when timer expires
+ * @flags: any TIMER_* flags
+ *
+ * Regular timer initialization should use either DEFINE_TIMER() above,
+ * or timer_setup(). For timers on the stack, timer_setup_on_stack() must
+ * be used and must be balanced with a call to destroy_timer_on_stack().
+ */
+#define timer_setup(timer, callback, flags)
+
+/**
+ * mod_timer - Modify a timer's timeout
+ * @timer:	The timer to be modified
+ * @expires:	New absolute timeout in jiffies
+ *
+ * mod_timer(timer, expires) is equivalent to:
+ *
+ *     del_timer(timer); timer->expires = expires; add_timer(timer);
+ *
+ * mod_timer() is more efficient than the above open coded sequence. In
+ * case that the timer is inactive, the del_timer() part is a NOP. The
+ * timer is in any case activated with the new expiry time @expires.
+ *
+ * Note that if there are multiple unserialized concurrent users of the
+ * same timer, then mod_timer() is the only safe way to modify the timeout,
+ * since add_timer() cannot modify an already running timer.
+ *
+ * If @timer->function == NULL then the start operation is silently
+ * discarded. In this case the return value is 0 and meaningless.
+ *
+ * Return:
+ * * %0 - The timer was inactive and started or was in shutdown
+ *	  state and the operation was discarded
+ * * %1 - The timer was active and requeued to expire at @expires or
+ *	  the timer was active and not modified because @expires did
+ *	  not change the effective expiry time
+ */
+int mod_timer(struct timer_list *timer, unsigned long expires)
+
+/**
+ * del_timer - Delete a pending timer
+ * @timer:	The timer to be deleted
+ *
+ * See timer_delete() for detailed explanation.
+ *
+ * Do not use in new code. Use timer_delete() instead.
+ */
+static inline int del_timer(struct timer_list *timer)
+
+15. 有关jiffies
+在Linux系统中，jiffies是一个全局变量，用于记录自系统启动以来产生的时钟中断次数。要将jiffies设置为1分钟，您需要根据系统的时钟频率（HZ）来计算。HZ值表示系统每秒中断的次数。例如，如果HZ值为100，则表示每秒有100次中断，那么1分钟（60秒）的jiffies值将是60 * HZ。
